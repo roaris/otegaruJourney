@@ -20,33 +20,19 @@ catch (error) {
 
 
 const initState = {
-    page: 'TopPage',
     login: false,
     user_name: 'no login',
     email: '',
-    prefecture: 'hokkaido'
 }
 
 export function Reducer(state = initState, action){
     switch (action.type){
-        case 'ChangePage':
-            console.log('Change')
-            let newpage = action.value.page;
-            return{
-                page: newpage,
-                login: state.login,
-                user_name: state.user_name,
-                email: state.email,
-                prefecture: state.prefecture
-            }
         case 'UpdateUser':
             console.log('Update')
             return{
-                page: action.value.page,
                 login: action.value.login,
                 user_name: action.value.user_name,
                 email: action.value.email,
-                prefecture: state.prefecture
             }
         default:
             return state;

@@ -12,7 +12,6 @@ const Header = (props) => {
                 props.dispatch({
                     type:'UpdateUser',
                     value:{
-                        page:props.page,
                         login:true,
                         user_name: result.user.displayName,
                         email: result.user.email,
@@ -27,7 +26,6 @@ const Header = (props) => {
         props.dispatch({
             type:'UpdateUser',
             value:{
-                page:'TopPage',
                 login:false,
                 user_name:'no login',
                 email: '',
