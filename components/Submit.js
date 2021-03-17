@@ -174,8 +174,8 @@ const SubmitPage = (props) => {
                     <div>
                         <p>{v+1}枚目</p>
                         <input type='file' accept='.png, .jpg, .jpeg, .PNG, .JPG' onChange={(e)=>{updateImgs(v, e); updateImgViews(v, e)}} /> <br />
-                        <img src={imgViews[v]} />
-                        <textarea type='text' placeholder='説明文' value={sentences[v]} onChange={(e)=>{updateText(v, e)}} />
+                        <img className='submitImg' src={imgViews[v]} />
+                        <textarea className='submitTextarea' type='text' placeholder='説明文' value={sentences[v]} onChange={(e)=>{updateText(v, e)}} />
                         <button onClick={()=>{remove(v)}}>削除</button>
                     </div>
                 )}
