@@ -145,6 +145,7 @@ const SubmitPage = (props) => {
         let imgPaths = [];
         for (let i=0; i<imgs.length; i++) imgPaths.push(id+'/'+i)
         ref.set({
+            user_name: props.user_name,
             user_email: props.email.split('.').join('*'),
             title: title,
             prefecture: prefecture,
