@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import 'firebase/storage'
 
 const SubmitPage = (props) => {
+    const [title, setTitle] = useState('')
     const [prefecture, setPrefecture] = useState(-1)
     const [indexes, setIndexes] = useState([0])
     const [imgs, setImgs] = useState([''])
@@ -145,9 +146,10 @@ const SubmitPage = (props) => {
         for (let i=0; i<imgs.length; i++) imgPaths.push(id+'/'+i)
         ref.set({
             user_email: props.email.split('.').join('*'),
+            title: title,
             prefecture: prefecture,
             img: imgPaths,
-            sentence: sentences,
+            sentence: sentences
         })
         for (let i=0; i<imgs.length; i++) {
             console.log(imgs[i])
@@ -169,6 +171,7 @@ const SubmitPage = (props) => {
         <>
             <div className='top'>
                 <h1>投稿ページ</h1>
+                <input type='text' placeholder='タイトル' onChange={(e)=>setTitle(e.target.value)}/>
                 <Select options={options} onChange={(e)=>{setPrefecture(e.value)}}/>
                 {indexes.map((v)=>
                     <div>
