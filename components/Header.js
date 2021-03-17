@@ -48,6 +48,11 @@ const Header = (props) => {
                             ログアウト
                         </div>   
                     </Link>
+                    <Link href='/submit'>
+                        <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
+                            投稿
+                        </div>
+                    </Link>
                 </div>
             )
         }else{
