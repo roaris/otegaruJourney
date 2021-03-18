@@ -3,15 +3,16 @@ import Select from 'react-select'
 import {connect} from 'react-redux'
 import firebase from 'firebase'
 import 'firebase/storage'
+import Router from 'next/router'
+import Layout from './Layout.js'
 
 const SubmitPage = (props) => {
-    const [title, setTitle] = useState('')
-    const [prefecture, setPrefecture] = useState(-1)
-    const [indexes, setIndexes] = useState([0])
-    const [imgs, setImgs] = useState([''])
-    const [imgViews, setImgViews] = useState([''])
-    const [sentences, setSentences] = useState([''])
-    const [lastID, setLastID] = useState(-1)
+    const [title, setTitle] = useState('') //タイトル
+    const [prefecture, setPrefecture] = useState(-1) //都道府県
+    const [imgs, setImgs] = useState(['']) //画像
+    const [imgViews, setImgViews] = useState(['']) //画像のビュー表示
+    const [sentences, setSentences] = useState(['']) //説明文
+    const [lastID, setLastID] = useState(-1) //最後のレコード番号
 
     const options = [
         {value:'1', label:'北海道'},
@@ -63,10 +64,13 @@ const SubmitPage = (props) => {
         {value:'47', label:'沖縄県'}
     ]
 
+    //行を追加
     const add = () => {
-        let newIndexes = indexes.slice()
-        newIndexes.push(indexes.length)
-        setIndexes(newIndexes)
+        //5枚まで
+        if (imgs.length==5) {
+            alert('投稿できるのは画像5枚までです')
+            return
+        }
 
         let newImgs = imgs.slice()
         newImgs.push('')
@@ -81,11 +85,10 @@ const SubmitPage = (props) => {
         setSentences(newSentences)
     }
 
+    //行を削除
     const remove = (index) => {
-        let newIndexes = indexes.slice()
-        newIndexes.splice(index, 1)
-        for (let i=0; i<newIndexes.length; i++) newIndexes[i] = i
-        setIndexes(newIndexes)
+        //行の数が既に1なら削除しない
+        if (imgs.length==1) return
 
         let newImgs = imgs.slice()
         newImgs.splice(index, 1)
@@ -100,7 +103,8 @@ const SubmitPage = (props) => {
         setSentences(newSentences)
     }
 
-    const updateImgs = (index, e) => {
+    //画像の変更
+    const changeImgs = (index, e) => {
         if (e.target.files.length>0) {
             let newImgs = imgs.slice()
             newImgs[index] = e.target.files[0]
@@ -108,7 +112,8 @@ const SubmitPage = (props) => {
         }
     }
 
-    const updateImgViews = (index, e) => {
+    //ビューの変更
+    const changeImgViews = (index, e) => {
         if (e.target.files.length>0) {
             let reader = new FileReader()
             let file = e.target.files[0]
@@ -121,27 +126,48 @@ const SubmitPage = (props) => {
         }
     }
 
-    const updateText = (index, e) => {
+    //説明文の変更
+    const changeText = (index, e) => {
         let newSentences = sentences.slice()
         newSentences[index] = e.target.value
         setSentences(newSentences)
     }
 
+    //最後のレコード番号を取得
     const getLastID = () => {
         let db = firebase.database()
         let ref = db.ref('posts/')
-        let lastID
         ref.orderByKey().limitToLast(1).on('value', (snapshot)=>{
             let res = snapshot.val()
             for (let i in res) setLastID(i)
         })
     }
 
+    //投稿エラー処理
+    const addError = () => {
+        let error_message = ''
+        if (title=='') error_message += '・タイトルを入力してください\n'
+        if (prefecture==-1) error_message += '・都道府県を選択してください\n'
+        for (let i=0; i<imgs.length; i++) {
+            if (imgs[i]=='') error_message += '・'+(i+1)+'枚目の画像を選択してください\n'
+            if (sentences[i]=='') error_message += '・'+(i+1)+'個目の説明文を入力してください\n'
+        }
+        if (error_message=='') return false
+        else {
+            alert(error_message)
+            return true
+        }
+    }
+
+    //投稿処理
     const addFireData = () => {
-        if (lastID==-1) return
-        let id = lastID*1+1
+        //投稿エラーがある場合は投稿しない
+        if (addError()) return
+        let id = lastID*1+1 //投稿ID
+        console.log(id)
         let db = firebase.database()
         let ref = db.ref('posts/'+id)
+        //ストレージから画像を取り出すためのパスを作成
         let imgPaths = [];
         for (let i=0; i<imgs.length; i++) imgPaths.push(id+'/'+i)
         ref.set({
@@ -152,40 +178,71 @@ const SubmitPage = (props) => {
             img: imgPaths,
             sentence: sentences
         })
+        //ストレージに画像を保存
         for (let i=0; i<imgs.length; i++) {
-            console.log(imgs[i])
             let storageRef = firebase.storage().ref().child(id+'/'+i)
             storageRef.put(imgs[i])
         }
         
+        //都道府県のテーブルに投稿IDを追加
         ref = db.ref('prefecture/'+prefecture)
         ref.push(id)
 
+        //ユーザーのテーブルに投稿IDを追加
         ref = db.ref('user/'+props.email.split('.').join('*'))
         ref.push(id)
 
+        //トップページに戻る
+        alert('投稿が出来ました!')
+        Router.push('/')
     }
 
     if (lastID==-1) getLastID()
 
+    if (props.user_name=='no login') {
+        return (
+            <>
+                <Layout>
+                    <p>投稿するためにはログインしてください</p>
+                </Layout>
+            </>
+        )
+    }
+
     return(
         <>
-            <div className='top'>
+            <Layout>
+            <div className='submit-top'>
                 <h1>投稿ページ</h1>
-                <input type='text' placeholder='タイトル' onChange={(e)=>setTitle(e.target.value)}/>
-                <Select options={options} onChange={(e)=>{setPrefecture(e.value)}}/>
-                {indexes.map((v)=>
-                    <div>
-                        <p>{v+1}枚目</p>
-                        <input type='file' accept='.png, .jpg, .jpeg, .PNG, .JPG' onChange={(e)=>{updateImgs(v, e); updateImgViews(v, e)}} /> <br />
-                        <img className='submitImg' src={imgViews[v]} />
-                        <textarea className='submitTextarea' type='text' placeholder='説明文' value={sentences[v]} onChange={(e)=>{updateText(v, e)}} />
-                        <button onClick={()=>{remove(v)}}>削除</button>
+                <p>タイトル、都道府県、画像、説明文を入力してください。投稿できるのは5枚までです。</p>
+                <p>投稿にあたって、名前は公開されません。マイページから投稿を削除することも可能です。</p>
+
+                <div className='title-form'>
+                    <input placeholder='タイトル' className='p-1 border' type='text' onChange={(e)=>setTitle(e.target.value)} />
+                </div>
+
+                <div className='select-form'>
+                    <Select placeholder='都道府県' className='select' options={options} onChange={(e)=>{setPrefecture(e.value)}}/>
+                </div>
+
+                {imgs.map((value, index)=>
+                    <div className='viewSentence-wrapper'>
+                        <p>{index+1}枚目</p>
+                        <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded' onClick={()=>{remove(index)}}>削除</button>
+                        <div className='viewSentence'>
+                            <div className='view'>
+                                <input type='file' accept='.png, .jpg, .jpeg, .PNG, .JPG' onChange={(e)=>{changeImgs(index, e); changeImgViews(index, e)}} /> <br />
+                                <img className='imgView' src={imgViews[index]} />
+                            </div>
+                            <textarea className='border-black p-1 border w-64' placeholder='説明文を入力してください' type='text' value={sentences[index]} onChange={(e)=>{changeText(index, e)}} />
+                        </div>
                     </div>
                 )}
-                <button onClick={()=>{add()}}>追加</button>
-                <button onClick={()=>{addFireData()}}>投稿</button>
+
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' onClick={()=>{add()}}>追加</button>
+                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded' onClick={()=>{addFireData()}}>投稿</button>
             </div>
+            </Layout>
         </>
     )
 }
