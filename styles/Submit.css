@@ -1,14 +1,55 @@
-.top {
+.submit-top {
     text-align: center;
 }
 
-.submitImg {
-    height: 100px;
-    width: 100px;
+.submit-top h1 {
+    font-size: 30px;
 }
 
-.submitTextarea {
-    height: 100px;
-    margin-left: 10px;
+.title-form {
+    margin-top: 30px;
 }
 
+.title-form input {
+    width: 500px;
+}
+
+.select-form {
+    margin-top: 30px;
+}
+
+.select {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.viewSentence-wrapper {
+    margin-top: 30px;
+}
+
+.viewSentence-wrapper p {
+    font-size: 25px;
+    display: inline;
+}
+
+.viewSentence-wrapper button {
+    margin-left: 30px;
+}
+
+.viewSentence {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.imgView {
+    height: 200px;
+}
+
+.view {
+    margin-right: 10px;
+}
+
+.submit-top button {
+    margin: 30px;
+}
