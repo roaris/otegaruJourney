@@ -135,9 +135,9 @@ const SubmitPage = (props) => {
         let error_message = ''
         if (title=='') error_message += '・タイトルを入力してください\n'
         if (prefecture==-1) error_message += '・都道府県を選択してください\n'
-        for (let i=0; i<imgs.length; i++) {
-            if (imgs[i]=='') error_message += '・'+(i+1)+'枚目の画像を選択してください\n'
-            if (sentences[i]=='') error_message += '・'+(i+1)+'個目の説明文を入力してください\n'
+        for (let i=0; i<imgViewSentences.length; i++) {
+            if (imgViewSentences[i].img==null) error_message += '・'+(i+1)+'枚目の画像を選択してください\n'
+            if (imgViewSentences[i].sentence=='') error_message += '・'+(i+1)+'個目の説明文を入力してください\n'
         }
         if (error_message=='') return false
         else {
@@ -156,7 +156,9 @@ const SubmitPage = (props) => {
         let ref = db.ref('posts/'+id)
         //ストレージから画像を取り出すためのパスを作成
         let imgPaths = [];
-        for (let i=0; i<imgs.length; i++) imgPaths.push(id+'/'+i)
+        for (let i=0; i<imgViewSentences.length; i++) imgPaths.push(id+'/'+i)
+        let sentences = [];
+        for (let i=0; i<imgViewSentences.length; i++) sentences.push(imgViewSentences[i].sentence)
         ref.set({
             user_name: props.user_name,
             user_email: props.email.split('.').join('*'),
@@ -165,10 +167,11 @@ const SubmitPage = (props) => {
             img: imgPaths,
             sentence: sentences
         })
+
         //ストレージに画像を保存
-        for (let i=0; i<imgs.length; i++) {
+        for (let i=0; i<imgViewSentences.length; i++) {
             let storageRef = firebase.storage().ref().child(id+'/'+i)
-            storageRef.put(imgs[i])
+            storageRef.put(imgViewSentences[i].img)
         }
         
         //都道府県のテーブルに投稿IDを追加
@@ -186,7 +189,7 @@ const SubmitPage = (props) => {
 
     if (lastID==-1) getLastID()
 
-    if (props.user_name=='no login') {
+    if (props.user_name=='') {
         return (
             <>
                 <Layout>
