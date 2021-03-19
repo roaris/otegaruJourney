@@ -21,7 +21,7 @@ catch (error) {
 
 const initState = {
     login: false,
-    user_name: 'no login',
+    user_name: '',
     email: '',
 }
 

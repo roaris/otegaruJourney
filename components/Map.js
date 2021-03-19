@@ -119,7 +119,7 @@ const Map = () => {
 
     return(
         <div className="japan_map">
-            <img src="../static/images/tizu.png" alt="日本地図"/>
+            <img src="../static/images/tizu-removed.png" alt="日本地図"/>
             <span className="area_btn area1" data-area="1" onClick={(e)=>areaBtnClick(e)}>北海道・東北</span>
             <span className="area_btn area2" data-area="2" onClick={(e)=>areaBtnClick(e)}>関東</span>
             <span className="area_btn area3" data-area="3" onClick={(e)=>areaBtnClick(e)}>中部</span>
