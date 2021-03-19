@@ -9,9 +9,10 @@ import Layout from './Layout.js'
 const SubmitPage = (props) => {
     const [title, setTitle] = useState('') //タイトル
     const [prefecture, setPrefecture] = useState(-1) //都道府県
-    const [imgs, setImgs] = useState(['']) //画像
-    const [imgViews, setImgViews] = useState(['']) //画像のビュー表示
-    const [sentences, setSentences] = useState(['']) //説明文
+    //画像、ビュー、説明文を一括で管理
+    const [imgViewSentences, setImgViewSentences] = useState([
+        {id:0, img:null, view:null, sentence:''}
+    ])
     const [lastID, setLastID] = useState(-1) //最後のレコード番号
 
     const options = [
@@ -67,48 +68,34 @@ const SubmitPage = (props) => {
     //行を追加
     const add = () => {
         //5枚まで
-        if (imgs.length==5) {
+        if (imgViewSentences.length==5) {
             alert('投稿できるのは画像5枚までです')
             return
         }
-
-        let newImgs = imgs.slice()
-        newImgs.push('')
-        setImgs(newImgs)
-
-        let newImgViews = imgViews.slice()
-        newImgViews.push('')
-        setImgViews(newImgViews)
-
-        let newSentences = sentences.slice()
-        newSentences.push('')
-        setSentences(newSentences)
+        
+        let newImgViewSentences = imgViewSentences.slice()
+        newImgViewSentences.push({
+            id:imgViewSentences.length, img:null, view:null, sentence:''
+        })
+        setImgViewSentences(newImgViewSentences)
     }
 
     //行を削除
     const remove = (index) => {
         //行の数が既に1なら削除しない
-        if (imgs.length==1) return
-
-        let newImgs = imgs.slice()
-        newImgs.splice(index, 1)
-        setImgs(newImgs)
-
-        let newImgViews = imgViews.slice()
-        newImgViews.splice(index, 1)
-        setImgViews(newImgViews)
-
-        let newSentences = sentences.slice()
-        newSentences.splice(index, 1)
-        setSentences(newSentences)
+        if (imgViewSentences.length==1) return
+        
+        let newImgViewSentences = imgViewSentences.slice()
+        newImgViewSentences.splice(index, 1)
+        setImgViewSentences(newImgViewSentences)
     }
 
     //画像の変更
     const changeImgs = (index, e) => {
         if (e.target.files.length>0) {
-            let newImgs = imgs.slice()
-            newImgs[index] = e.target.files[0]
-            setImgs(newImgs)
+            let newImgViewSentences = imgViewSentences.slice()
+            newImgViewSentences[index].img = e.target.files[0]
+            setImgViewSentences(newImgViewSentences)
         }
     }
 
@@ -118,9 +105,9 @@ const SubmitPage = (props) => {
             let reader = new FileReader()
             let file = e.target.files[0]
             reader.onloadend = () => {
-                let newImgViews = imgViews.slice()
-                newImgViews[index] = reader.result
-                setImgViews(newImgViews)
+                let newImgViewSentences = imgViewSentences.slice()
+                newImgViewSentences[index].view = reader.result
+                setImgViewSentences(newImgViewSentences)
             }
             reader.readAsDataURL(file)
         }
@@ -128,9 +115,9 @@ const SubmitPage = (props) => {
 
     //説明文の変更
     const changeText = (index, e) => {
-        let newSentences = sentences.slice()
-        newSentences[index] = e.target.value
-        setSentences(newSentences)
+        let newImgViewSentences = imgViewSentences.slice()
+        newImgViewSentences[index].sentence = e.target.value
+        setImgViewSentences(newImgViewSentences)
     }
 
     //最後のレコード番号を取得
@@ -225,16 +212,16 @@ const SubmitPage = (props) => {
                     <Select placeholder='都道府県' className='select' options={options} onChange={(e)=>{setPrefecture(e.value)}}/>
                 </div>
 
-                {imgs.map((value, index)=>
-                    <div className='viewSentence-wrapper'>
-                        <p>{index+1}枚目</p>
+                {imgViewSentences.map((value, index)=>
+                    <div key={value.id} className='viewSentence-wrapper'>
+                        <p className='index'>{index+1}枚目</p>
                         <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded' onClick={()=>{remove(index)}}>削除</button>
                         <div className='viewSentence'>
                             <div className='view'>
-                                <input type='file' accept='.png, .jpg, .jpeg, .PNG, .JPG' onChange={(e)=>{changeImgs(index, e); changeImgViews(index, e)}} /> <br />
-                                <img className='imgView' src={imgViews[index]} />
+                            <input type='file' className='file-form' accept='.png, .jpg, .jpeg, .PNG, .JPG' onChange={(e)=>{changeImgs(index, e); changeImgViews(index, e)}} /> <br />
+                            <img className='imgView' src={value.view} />
                             </div>
-                            <textarea className='border-black p-1 border w-64' placeholder='説明文を入力してください' type='text' value={sentences[index]} onChange={(e)=>{changeText(index, e)}} />
+                            <textarea className='border-black p-1 border w-64' placeholder='説明文を入力してください' type='text' value={value.sentence} onChange={(e)=>{changeText(index, e)}} />
                         </div>
                     </div>
                 )}
