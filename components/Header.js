@@ -1,14 +1,20 @@
 import firebase from 'firebase'
 import { connect } from 'react-redux';
 import Link from 'next/link'
+import Lib from '../lib/library'
 
 const Header = (props) => {
 
     function login(){
+        // Googleを利用した認証
         let provider = new firebase.auth.GoogleAuthProvider();
+        const db = firebase.database()
         firebase.auth().signInWithPopup(provider)
             .then((result) => {
                 console.log('loginしたよ')
+                db.ref('/user').on('value',(snapshot)=>{
+
+                })
                 props.dispatch({
                     type:'UpdateUser',
                     value:{
@@ -27,7 +33,7 @@ const Header = (props) => {
             type:'UpdateUser',
             value:{
                 login:false,
-                user_name:'no login',
+                user_name:'',
                 email: '',
             }
         })

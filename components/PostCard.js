@@ -11,6 +11,7 @@ const PostCard = (props) => {
     useEffect(()=>{
         const postRef = db.ref('posts/'+postId)
         postRef.on('value',(snapshot)=>{
+            if(snapshot.val() === null) return
             setTitle(snapshot.val().title)
             setAuthor(snapshot.val().user_name)
             firebase.storage().ref(snapshot.val().img[0]).getDownloadURL().then((url)=>{
