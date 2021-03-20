@@ -4,6 +4,7 @@ import Layout from '../../components/Layout'
 import PostCard from '../../components/PostCard'
 import firebase from 'firebase'
 import 'firebase/storage'
+import { connect } from 'react-redux';
 
 const UserPage = (props) => {
     const router = useRouter()
@@ -68,7 +69,10 @@ const UserPage = (props) => {
         })
         
         //userテーブルからデータを削除
-        db.ref('user/'+user_name+'/posts/'+post_id).remove()
+        db.ref('user/'+props.email+'/posts/'+post_id).remove()
+        //user2テーブルからデータを削除
+        db.ref('user2/'+user_name+'/posts/'+post_id).remove()
+        //再レンダリングのため
         setDeleteCnt(deleteCnt+1)
     }
     
@@ -82,14 +86,16 @@ const UserPage = (props) => {
     return(
         <>
             <Layout>
-                <h1>{user_name}さんのマイページ</h1>
-                <div className='display'>
+            <h1 className="mx-10 my-10 text-center text-2xl md:text-4xl border-b border-black">{user_name}さんの投稿一覧</h1>
+                <div className='flex flex-wrap justify-center'>
                     {posts.map((value, index)=>
                         <div key={value}>
                             <PostCard postId={value}/>
                             {/* TODO ログイン中のユーザ以外には修正、削除ボタンを表示しないようにする */}
-                            <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded' onClick={()=>{goUpdatePage(value)}}>修正</button>
-                            <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded' onClick={()=>{openModal(index)}}>削除</button>
+                            {user_name==props.user_name ? 
+                            <div className='delete-button'>
+                                <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded' onClick={()=>{openModal(index)}}>削除</button>
+                            </div> : null}
                             {modalIsOpen[index] ? Modal(index, value) : null}
                         </div>)
                     }
@@ -99,4 +105,4 @@ const UserPage = (props) => {
     )
 }
 
-export default UserPage;
+export default connect((state)=>state)(UserPage);

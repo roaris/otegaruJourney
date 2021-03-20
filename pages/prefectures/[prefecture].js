@@ -22,7 +22,8 @@ const Prefecture = () => {
             if(posts === null) return
             const entries = Object.entries(posts)
             entries.map((post)=>{
-                postIds.unshift(String(post[0]))
+                //postIds.unshift(String(post[0]))
+                postIds.push(String(post[0]))
             })
             setIdList(postIds)
         })
@@ -31,9 +32,13 @@ const Prefecture = () => {
     return(
         <Layout>
             <div>
-                <h1 className="mx-10 my-10 text-center text-3xl md:text-6xl border-b border-black">{idToName[prefectureId]}の投稿一覧</h1>
+                <h1 className="mx-10 my-10 text-center text-2xl md:text-4xl border-b border-black">{idToName[prefectureId]}の投稿一覧</h1>
                 <div className="flex flex-wrap justify-center">
-                    {idList.map((id)=><PostCard postId={id}/>)}
+                    {idList.map((id)=>
+                        <div key={id}>
+                            <PostCard postId={id}/>
+                        </div>
+                    )}
                 </div>
             </div>
         </Layout>

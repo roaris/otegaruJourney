@@ -63,11 +63,11 @@ const Post = () =>{
 
     const slideContents = () => {
         let res = []
-        if (textImg1.text!='') res.push(slideContent(textImg1))
-        if (textImg2.text!='') res.push(slideContent(textImg2))
-        if (textImg3.text!='') res.push(slideContent(textImg3))
-        if (textImg4.text!='') res.push(slideContent(textImg4))
-        if (textImg5.text!='') res.push(slideContent(textImg5))
+        if (textImg1.text!='') res.push(<div key={1}>{slideContent(textImg1)}</div>)
+        if (textImg2.text!='') res.push(<div key={2}>{slideContent(textImg2)}</div>)
+        if (textImg3.text!='') res.push(<div key={3}>{slideContent(textImg3)}</div>)
+        if (textImg4.text!='') res.push(<div key={4}>{slideContent(textImg4)}</div>)
+        if (textImg5.text!='') res.push(<div key={5}>{slideContent(textImg5)}</div>)
         return res
     }
 

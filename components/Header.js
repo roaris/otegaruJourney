@@ -6,7 +6,7 @@ import Router from 'next/router'
 
 const Header = (props) => {
 
-    function login(){
+    const login = () => {
         // Googleを利用した認証
         let provider = new firebase.auth.GoogleAuthProvider();
         const db = firebase.database()
@@ -40,7 +40,7 @@ const Header = (props) => {
             })
     }
 
-    function logout(){
+    const logout = () => {
         console.log('logout')
         firebase.auth().signOut();
         props.dispatch({
@@ -53,7 +53,7 @@ const Header = (props) => {
         })
     }
 
-    function loginOrMypage(){
+    const loginOrMypage = () => {
         if (props.login === true){
             return(
                 <div className="text-sm lg:flex-grow">
@@ -67,7 +67,7 @@ const Header = (props) => {
                     :
                     <Link href={'/userPage/'+props.user_name}>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
-                            {props.user_name}さんのマイページ
+                            {props.user_name}さんの投稿一覧
                         </div>               
                     </Link>
                     }

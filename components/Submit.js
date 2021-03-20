@@ -6,6 +6,29 @@ import 'firebase/storage'
 import Router from 'next/router'
 import Layout from './Layout.js'
 
+// const SubmitPage = (props) => {
+//     //投稿処理
+//     const add100 = () => {
+//         let db = firebase.database()
+//         let ref = db.ref('nums')
+//         ref.set({'id':0, 'num':100})
+//     }
+
+//     //トップページに戻る
+//     const goTopPage = () => {
+//         alert('投稿が出来ました!')
+//         Router.push('/')
+//     }
+    
+//     return(
+//         <>
+//             <button onClick={()=>{add100(); goTopPage();}}>投稿</button>
+//         </>
+//     )
+// }
+
+// export default  connect((state)=>state)(SubmitPage)
+
 const SubmitPage = (props) => {
     const [title, setTitle] = useState('') //タイトル
     const [prefecture, setPrefecture] = useState(-1) //都道府県
@@ -147,13 +170,13 @@ const SubmitPage = (props) => {
     }
 
     //投稿処理
-    const addFireData = async () => {
+    const addFireData = () => {
         //投稿エラーがある場合は投稿しない
         if (addError()) return
         let id = lastID*1+1 //投稿ID
         let db = firebase.database()
         let ref = db.ref('posts/'+id)
-        //ストレージから画像を取り出すためのパスを作成
+        // //ストレージから画像を取り出すためのパスを作成
         let imgPaths = [];
         for (let i=0; i<imgViewSentences.length; i++) imgPaths.push(id+'/'+i)
         let sentences = [];
@@ -181,14 +204,12 @@ const SubmitPage = (props) => {
         //ユーザーのテーブルに投稿IDを追加
         ref = db.ref('user/'+props.email.split('.').join('*')+'/posts'+'/'+id)
         ref.push(id)
-    }
+        ref = db.ref('user2/'+props.user_name+'/posts/'+id)
+        ref.push(id)
 
-    //トップページに戻る
-    const goTopPage = async () => {
         alert('投稿が出来ました!')
         Router.push('/')
     }
-
 
     if (lastID==-1) getLastID()
 
@@ -201,7 +222,7 @@ const SubmitPage = (props) => {
             </>
         )
     }
-
+    
     return(
         <>
             <Layout>
@@ -232,8 +253,8 @@ const SubmitPage = (props) => {
                     </div>
                 )}
 
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' onClick={()=>{add()}}>追加</button>
-                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded' onClick={()=>{addFireData(); goTopPage();}}>投稿</button>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded' onClick={()=>{add()}}>画像を追加</button>
+                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded' onClick={()=>{addFireData();}}>投稿</button>
             </div>
             </Layout>
         </>
