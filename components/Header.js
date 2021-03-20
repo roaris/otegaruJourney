@@ -12,7 +12,6 @@ const Header = (props) => {
         const db = firebase.database()
         firebase.auth().signInWithPopup(provider)
             .then((result) => {
-                console.log('login')
                 // emailが既に存在＝ユーザー名を既に定義している
                 db.ref('user/'+Lib.encodeEmail(result.user.email)).on('value',(snapshot) => {
                     if(snapshot.exists()){
@@ -41,7 +40,6 @@ const Header = (props) => {
     }
 
     const logout = () => {
-        console.log('logout')
         firebase.auth().signOut();
         props.dispatch({
             type:'UpdateUser',

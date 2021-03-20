@@ -197,7 +197,6 @@ const SubmitPage = (props) => {
         }
         
         //都道府県のテーブルに投稿IDを追加
-        console.log('prefecture-add')
         ref = db.ref('prefecture/'+prefecture+'/'+id)
         ref.push(id)
 
