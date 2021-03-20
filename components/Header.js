@@ -12,7 +12,7 @@ const Header = (props) => {
         const db = firebase.database()
         firebase.auth().signInWithPopup(provider)
             .then((result) => {
-                console.log('loginしたよ')
+                console.log('login')
                 // emailが既に存在＝ユーザー名を既に定義している
                 db.ref('user/'+Lib.encodeEmail(result.user.email)).on('value',(snapshot) => {
                     if(snapshot.exists()){
@@ -54,7 +54,6 @@ const Header = (props) => {
     }
 
     function loginOrMypage(){
-        console.log(props)
         if (props.login === true){
             return(
                 <div className="text-sm lg:flex-grow">
@@ -66,7 +65,7 @@ const Header = (props) => {
                         </div>  
                     </Link>
                     :
-                    <Link href='/mypage'>
+                    <Link href={'/userPage/'+props.user_name}>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
                             {props.user_name}さんのマイページ
                         </div>               
