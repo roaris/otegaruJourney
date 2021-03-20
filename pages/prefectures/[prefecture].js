@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import PostCard from '../../components/PostCard'
 import firebase from 'firebase'
 import { useEffect, useState } from "react";
+import { urlObjectKeys } from "next/dist/next-server/lib/utils";
 
 
 const Prefecture = () => {
@@ -11,8 +12,8 @@ const Prefecture = () => {
     const prefectureId = router.query.prefecture 
     const db = firebase.database()
     const [idList,setIdList] = useState([])
-    // TODO:与えられたprefectureIDと一致する投稿を入手する
 
+    // 受け取った都道府県の投稿を探す
     useEffect(()=>{
         let prefectureRef = db.ref('prefecture/'+prefectureId)
         prefectureRef.orderByKey().on('value',(snapshot)=>{
@@ -21,7 +22,7 @@ const Prefecture = () => {
             if(posts === null) return
             const entries = Object.entries(posts)
             entries.map((post)=>{
-                postIds.unshift(String(post[1]))
+                postIds.unshift(String(post[0]))
             })
             setIdList(postIds)
         })
@@ -29,8 +30,12 @@ const Prefecture = () => {
 
     return(
         <Layout>
-            {idToName[prefectureId]}の都道府県ページ
-            {idList.map((id)=><PostCard postId={id}/>)}
+            <div>
+                <h1 className="mx-10 my-10 text-center text-3xl md:text-6xl border-b border-black">{idToName[prefectureId]}の投稿一覧</h1>
+                <div className="flex flex-wrap justify-center">
+                    {idList.map((id)=><PostCard postId={id}/>)}
+                </div>
+            </div>
         </Layout>
     )
 }
