@@ -6,21 +6,49 @@
     font-size: 30px;
 }
 
-.title-form {
-    margin-top: 30px;
+@media screen and (max-width: 650px) {
+    .explain {
+        width: 350px;
+        margin: 0 auto;
+    }
+}
+@media screen and (min-width: 650px) {
+    .explain {
+        width: 650px;
+        margin: 0 auto;
+    }
 }
 
-.title-form input {
-    width: 500px;
+@media screen and (max-width: 650px) {
+    .title-form input {
+        width: 350px;
+    }
+}
+@media screen and (min-width: 650px) {
+    .title-form input {
+        width: 650px;
+    }
+}
+
+.title-form {
+    margin-top: 30px;
 }
 
 .select-form {
     margin-top: 30px;
 }
 
-.select {
-    width: 500px;
-    margin: 0 auto;
+@media screen and (max-width: 650px) {
+    .select {
+        width: 350px;
+        margin: 0 auto;
+    }
+}
+@media screen and (min-width: 650px) {
+    .select {
+        width: 650px;
+        margin: 0 auto;
+    }
 }
 
 .viewSentence-wrapper {
@@ -31,23 +59,40 @@
     font-size: 25px;
     display: inline;
 }
-
+ 
 .viewSentence-wrapper button {
     margin-left: 30px;
 }
 
-.viewSentence {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
+.viewSentence-wrapper {
+    margin: 20px;
+}
+
+@media screen and (max-width: 650px) {
+    .viewSentence {
+        margin-top: 10px;
+        margin: 0 auto;
+    }
+}
+@media screen and (min-width: 650px) {
+    .viewSentence {
+        margin-top: 10px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .viewSentence textarea {
+        margin-top: 10px;
+    }
 }
 
 .imgView {
+    margin: 0 auto;
+    margin-top: 10px;
     height: 200px;
-}
-
-.view {
-    margin-right: 10px;
 }
 
 .submit-top button {

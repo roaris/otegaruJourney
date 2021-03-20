@@ -227,10 +227,12 @@ const SubmitPage = (props) => {
         <>
             <Layout>
             <div className='submit-top'>
-                <h1>投稿ページ</h1>
-                <p>タイトル、都道府県、画像、説明文を入力してください。投稿できるのは5枚までです。</p>
-                <p>投稿にあたって、名前は公開されません。マイページから投稿を削除することも可能です。</p>
-
+                <div className='explain'>
+                    <h1>投稿ページ</h1>
+                    <p>タイトル、都道府県、画像、説明文を入力してください。投稿できるのは5枚までです。</p>
+                    <p>投稿一覧から投稿を削除することも可能です。</p>
+                </div>
+                
                 <div className='title-form'>
                     <input placeholder='タイトル' className='p-1 border' type='text' onChange={(e)=>setTitle(e.target.value)} />
                 </div>

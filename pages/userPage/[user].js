@@ -80,9 +80,6 @@ const UserPage = (props) => {
         Router.push('/updates/'+value)
     }
 
-    {console.log(posts)}
-    {console.log(modalIsOpen)}
-
     return(
         <>
             <Layout>
