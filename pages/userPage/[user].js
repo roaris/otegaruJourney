@@ -22,6 +22,7 @@ const UserPage = (props) => {
         const db = firebase.database()
         let ref = db.ref('/user/'+user_name+'/posts')
         ref.orderByKey().on('value', (snapshot)=>{
+            if(snapshot.val() === null) return
             let data = [...Object.entries(snapshot.val())].map(v=>v[0])
             setPosts(data)
             let flags = Array(data.length).fill(false)
