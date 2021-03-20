@@ -13,14 +13,11 @@ const UserPage = (props) => {
     const [deleteCnt, setDeleteCnt] = useState(0)
     //TODO
     //存在しないユーザのページは開けないようにする
-    const f = (v) => {
-        return {flag:false, modal:<Modal value={v}/>}
-    }
 
     //ユーザの投稿番号を取得
     useEffect(()=>{
         const db = firebase.database()
-        let ref = db.ref('/user/'+user_name+'/posts')
+        let ref = db.ref('/user2/'+user_name+'/posts')
         ref.orderByKey().on('value', (snapshot)=>{
             let data = [...Object.entries(snapshot.val())].map(v=>v[0])
             setPosts(data)
