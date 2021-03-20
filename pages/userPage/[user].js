@@ -12,8 +12,6 @@ const UserPage = (props) => {
     const [posts, setPosts] =  useState([])
     const [modalIsOpen, setModalIsOpen] = useState([])
     const [deleteCnt, setDeleteCnt] = useState(0)
-    //TODO
-    //存在しないユーザのページは開けないようにする
 
     //ユーザの投稿番号を取得
     useEffect(()=>{
@@ -74,10 +72,6 @@ const UserPage = (props) => {
         db.ref('user2/'+user_name+'/posts/'+post_id).remove()
         //再レンダリングのため
         setDeleteCnt(deleteCnt+1)
-    }
-    
-    const goUpdatePage = (value) => {
-        Router.push('/updates/'+value)
     }
 
     return(
