@@ -41,7 +41,7 @@ const pushUserName = (props) =>{
             type:'UpdateName',
             value:{
                 login: props.login,
-                user_name: '',
+                user_name: userName,
                 email: props.email,
             }
         })
