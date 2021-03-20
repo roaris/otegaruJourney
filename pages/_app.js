@@ -6,6 +6,7 @@ import '../styles/japanMap.css'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import '../styles/[post].css'
+import '../styles/[user].css'
 
 function MyApp(props) {
   const {Component, pageProps, reduxStore} = props
