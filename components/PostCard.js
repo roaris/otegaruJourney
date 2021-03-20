@@ -23,7 +23,7 @@ const PostCard = (props) => {
     },[])
 
     return(
-        <div className='w-80 mx-10 my-5'>
+        <div className='w-80 mx-10 my-5' key={postId}>
             <article className="overflow-hidden rounded-lg shadow-lg">
 
                 <Link href={"/posts/"+postId}>

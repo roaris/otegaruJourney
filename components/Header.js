@@ -37,14 +37,6 @@ const Header = (props) => {
                         Router.push('/pushUsername')
                     }
                 })
-                // props.dispatch({
-                //     type:'UpdateUser',
-                //     value:{
-                //         login:true,
-                //         user_name: result.user.displayName,
-                //         email: result.user.email,
-                //     }
-                // });
             })
     }
 
@@ -54,19 +46,20 @@ const Header = (props) => {
         props.dispatch({
             type:'UpdateUser',
             value:{
-                login:false,
-                user_name:'',
+                login: false,
+                user_name: '',
                 email: '',
             }
         })
     }
 
     function loginOrMypage(){
+        console.log(props)
         if (props.login === true){
             return(
                 <div className="text-sm lg:flex-grow">
                     {/* userNameが定義されていない場合記入を求める */}
-                    {props.user_name === '' ?
+                    {props.user_name === "" ?
                     <Link href='/pushUsername'>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
                             ここからユーザー名を設定してください

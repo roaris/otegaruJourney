@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import firebase from "firebase"
 import { connect } from 'react-redux'
 import { useEffect, useState } from "react";
+import Router from 'next/router'
 
 const pushUserName = (props) =>{
     const [userName, setUserName] = useState('')
@@ -17,7 +18,6 @@ const pushUserName = (props) =>{
             alert('空列はユーザー名に使用できません')
             return
         }
-        
 
         ref.on('value',(snapshot)=>{
             if(snapshot.val() === null) return
@@ -27,48 +27,27 @@ const pushUserName = (props) =>{
                 if(entry[1]['username'] === userName){
                     setIsExist(true)
                     flag=true
-                    console.log(flag,'28')
                 }
             })
             if(flag===false){
                 setIsCheck(true)
-                console.log(flag,'32')
             }
         })
     }
 
     function submit(){
         ref.child(props.email).set({username:userName})
+        props.dispatch({
+            type:'UpdateName',
+            value:{
+                login: props.login,
+                user_name: '',
+                email: props.email,
+            }
+        })
+        alert('登録できました！')
+        Router.push('/')
     }
-    // function submit(name){
-    //     if(name === ''){
-    //         alert('空列はユーザー名に使用できません')
-    //         return;
-    //     }
-    //     console.log('submit')
-    //     const db = firebase.database()
-    //     let ref = db.ref('user')
-    //     setExist(false)
-    //     let isExist = false 
-
-    //     ref.on('value',(snapshot)=>{
-    //         console.log(snapshot.val())
-    //         if (snapshot.val() === null) return
-    //         const entries = Object.entries(snapshot.val())
-    //         entries.map((entry)=>{
-    //             console.log(entry)
-    //             if(entry[1]['username'] === name){
-    //                 isExist = true
-    //             }
-    //         })
-    //         if(isExist) {
-    //             alert('このユーザ名は既に存在しています')
-    //         }
-    //         else{
-    //             alert('登録できました！')
-    //         }
-    //     })        
-    // }
 
     return(
         <Layout>
