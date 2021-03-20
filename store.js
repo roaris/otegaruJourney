@@ -32,21 +32,21 @@ const initState = {
 export function Reducer(state = initState, action){
     switch (action.type){
         case 'UpdateUser':
-            console.log('Update')
+            // console.log('Update')
             return{
                 login: action.value.login,
                 user_name: action.value.user_name,
                 email: action.value.email,
             }
         case 'UpdateName':
-            console.log('UpdateName')
+            // console.log('UpdateName')
             return{
                 login: state.login,
                 user_name: action.value.user_name,
                 email: state.email
             }
         default:
-            console.log('default')
+            // console.log('default')
             return state;
     }
 }
