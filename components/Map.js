@@ -16,9 +16,6 @@ const Map = () => {
     }
 
     function prefectureClick(e){
-        console.log(e.target)
-        console.log(e.target.dataset)
-        console.log(e.target.dataset.id)
         const id = e.target.dataset.id;
         if(typeof(id) !== 'undefined'){
             Router.push('/prefectures/'+id)
@@ -118,21 +115,24 @@ const Map = () => {
     }
 
     return(
-        <div className="japan_map">
-            <img src="../static/images/tizu-removed.png" alt="日本地図"/>
-            <span className="area_btn area1" data-area="1" onClick={(e)=>areaBtnClick(e)}>北海道・東北</span>
-            <span className="area_btn area2" data-area="2" onClick={(e)=>areaBtnClick(e)}>関東</span>
-            <span className="area_btn area3" data-area="3" onClick={(e)=>areaBtnClick(e)}>中部</span>
-            <span className="area_btn area4" data-area="4" onClick={(e)=>areaBtnClick(e)}>近畿</span>
-            <span className="area_btn area5" data-area="5" onClick={(e)=>areaBtnClick(e)}>中国・四国</span>
-            <span className="area_btn area6" data-area="6" onClick={(e)=>areaBtnClick(e)}>九州・沖縄</span>
-            
-            {overlay && <div className="area_overlay" onClick={()=>overlayClick()}></div>}
-            {dataList != 0 &&
-            <div className="pref_area" onClick={(e)=>prefectureClick(e)}>
-                {choiceList()}
-            </div>            
-            }
+        <div className='bg-gray-200 p-3' id="map">
+            <h1 className='text-center text-4xl'>地図をクリックして旅行に出掛けよう！！</h1>
+            <div className="japan_map">
+                <img src="../static/images/tizu-removed.png" alt="日本地図"/>
+                <span className="area_btn area1" data-area="1" onClick={(e)=>areaBtnClick(e)}>北海道・東北</span>
+                <span className="area_btn area2" data-area="2" onClick={(e)=>areaBtnClick(e)}>関東</span>
+                <span className="area_btn area3" data-area="3" onClick={(e)=>areaBtnClick(e)}>中部</span>
+                <span className="area_btn area4" data-area="4" onClick={(e)=>areaBtnClick(e)}>近畿</span>
+                <span className="area_btn area5" data-area="5" onClick={(e)=>areaBtnClick(e)}>中国・四国</span>
+                <span className="area_btn area6" data-area="6" onClick={(e)=>areaBtnClick(e)}>九州・沖縄</span>
+                
+                {overlay && <div className="area_overlay" onClick={()=>overlayClick()}></div>}
+                {dataList != 0 &&
+                <div className="pref_area" onClick={(e)=>prefectureClick(e)}>
+                    {choiceList()}
+                </div>            
+                }
+            </div>
         </div>
     )
 }

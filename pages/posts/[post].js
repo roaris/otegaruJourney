@@ -22,6 +22,7 @@ const Post = () =>{
 
         ref.orderByKey().on('value', (snapshot)=>{
             const data = snapshot.val()
+            if(data === null) return
             setTitle(data.title)
             setAuthor(data.user_name)
 
@@ -52,7 +53,7 @@ const Post = () =>{
             <>
                 <div className='slide-content'>
                     <img src={textImg.image} />
-                    <div class='slide-content-box'>
+                    <div className='slide-content-box'>
                         <p>{textImg.text}</p>
                     </div>
                 </div>

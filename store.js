@@ -3,6 +3,10 @@ import thunkMiddleware from 'redux-thunk'
 import firebase from 'firebase/app'
 import 'firebase/database'
 
+// persist化のためのインポート
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage/'
+
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -39,6 +43,15 @@ export function Reducer(state = initState, action){
     }
 }
 
+// ここからpersist設定
+const persistConfig = {
+    key: 'root',
+    storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, Reducer)
+// 
 export function initStore(state=initState){
-    return createStore(Reducer, state, applyMiddleware(thunkMiddleware))
+    // return createStore(Reducer, state, applyMiddleware(thunkMiddleware))
+    return createStore(persistedReducer, state, applyMiddleware(thunkMiddleware))
 }

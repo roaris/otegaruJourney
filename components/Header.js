@@ -1,7 +1,8 @@
 import firebase from 'firebase'
 import { connect } from 'react-redux';
 import Link from 'next/link'
-import Lib from '../lib/library'
+import Lib from '../static/library'
+import Router from 'next/router'
 
 const Header = (props) => {
 
@@ -12,17 +13,38 @@ const Header = (props) => {
         firebase.auth().signInWithPopup(provider)
             .then((result) => {
                 console.log('loginしたよ')
-                db.ref('/user').on('value',(snapshot)=>{
-
-                })
-                props.dispatch({
-                    type:'UpdateUser',
-                    value:{
-                        login:true,
-                        user_name: result.user.displayName,
-                        email: result.user.email,
+                // emailが既に存在＝ユーザー名を既に定義している
+                db.ref('user/'+Lib.encodeEmail(result.user.email)).on('value',(snapshot) => {
+                    if(snapshot.exists()){
+                        props.dispatch({
+                            type:'UpdateUser',
+                            value:{
+                                login:true,
+                                user_name: snapshot.val().username,
+                                email: Lib.encodeEmail(result.user.email),
+                            }
+                        })
                     }
-                });
+                    else{
+                        props.dispatch({
+                            type:'UpdateUser',
+                            value:{
+                                login:true,
+                                user_name: '',
+                                email: Lib.encodeEmail(result.user.email)
+                            }
+                        })
+                        Router.push('/pushUsername')
+                    }
+                })
+                // props.dispatch({
+                //     type:'UpdateUser',
+                //     value:{
+                //         login:true,
+                //         user_name: result.user.displayName,
+                //         email: result.user.email,
+                //     }
+                // });
             })
     }
 
@@ -43,11 +65,20 @@ const Header = (props) => {
         if (props.login === true){
             return(
                 <div className="text-sm lg:flex-grow">
+                    {/* userNameが定義されていない場合記入を求める */}
+                    {props.user_name === '' ?
+                    <Link href='/pushUsername'>
+                        <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
+                            ここからユーザー名を設定してください
+                        </div>  
+                    </Link>
+                    :
                     <Link href='/mypage'>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
                             {props.user_name}さんのマイページ
                         </div>               
                     </Link>
+                    }
                     <Link href='/'>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer"
                         onClick={()=>logout()}>
