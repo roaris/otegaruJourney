@@ -7,11 +7,19 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import '../styles/[post].css'
 
+// persist化のためのインポート
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+
 function MyApp(props) {
   const {Component, pageProps, reduxStore} = props
+  const persistedStore = persistStore(reduxStore) //persist化で追加
+
   return(
       <Provider store={reduxStore}>
-        <Component {...pageProps}/>
+        <PersistGate loading={<p>now loading</p>} persistor={persistedStore}>
+          <Component {...pageProps}/>
+        </PersistGate>
       </Provider>
   )
   // return <Component {...pageProps} />
