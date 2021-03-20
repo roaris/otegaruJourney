@@ -9,7 +9,7 @@ const pushUserName = (props) =>{
     const [isExist, setIsExist] = useState(false)
     const [isCheck, setIsCheck] = useState(false)
     const db = firebase.database()
-    const ref = db.ref('user')
+    const ref = db.ref('user2')
 
     function check(){
         setIsExist(false)
@@ -19,24 +19,29 @@ const pushUserName = (props) =>{
             return
         }
 
-        ref.on('value',(snapshot)=>{
-            if(snapshot.val() === null) return
-            const entries = Object.entries(snapshot.val())
-            let flag = false
-            entries.map((entry)=>{
-                if(entry[1]['username'] === userName){
-                    setIsExist(true)
-                    flag=true
-                }
-            })
-            if(flag===false){
+        ref.child(userName).on('value',(snapshot)=>{
+            if(snapshot.val() === null){
                 setIsCheck(true)
+            }else{
+                setIsExist(true)
             }
+            // const entries = Object.entries(snapshot.val())
+            // let flag = false
+            // entries.map((entry)=>{
+            //     if(entry[1]['username'] === userName){
+            //         setIsExist(true)
+            //         flag=true
+            //     }
+            // })
+            // if(flag===false){
+            //     setIsCheck(true)
+            // }
         })
     }
 
     function submit(){
-        ref.child(props.email).set({username:userName})
+        ref.child(userName).set({username:userName})
+        db.ref('user/'+props.email).set({username:userName})
         props.dispatch({
             type:'UpdateName',
             value:{
