@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import '../styles/[post].css'
 import '../styles/[user].css'
+import '../styles/intro.css'
 
 // persist化のためのインポート
 import { persistStore } from 'redux-persist'

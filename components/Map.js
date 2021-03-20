@@ -116,7 +116,10 @@ const Map = () => {
     return(
         // <div className='bg-gray-200 p-3' id="map">
         <div className='p-3' id="map">
-            <h1 className='text-center text-4xl'>地図をクリックして旅行に出掛けよう！！</h1>
+            <h1 className='text-center text-3xl'>
+                <span className='inline-block'>地図をクリックして</span>
+                <span className='inline-block'>旅行に出掛けよう！！</span>
+            </h1>
             <div className="japan_map">
                 <img src="../static/images/japan.png" alt="日本地図"/>
                 <span className="area_btn area1" data-area="1" onClick={(e)=>areaBtnClick(e)}>北海道・東北</span>
