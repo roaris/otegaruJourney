@@ -61,8 +61,8 @@ const pushUserName = (props) =>{
             :
             props.user_name === '' ?
             (   
-                <div className="container mx-auto md:text-3xl justify-center items-center">
-                    <h1 className="my-5 text-center md:text-6xl border-b border-black">ここはユーザー名設定ページです</h1>
+                <div className="container mx-auto md:text-1xl text-center items-center">
+                    <h1 className="my-5 text-center md:text-3xl border-b border-black">ここはユーザー名設定ページです</h1>
                     <div className="mx-auto">
                     <h2>以下の3点に注意してください</h2>
                     <ul>
@@ -74,10 +74,10 @@ const pushUserName = (props) =>{
                         ユーザ名を入力：<input placeholder='ユーザー名' className='p-1 border' type='text' value={userName} 
                         onChange={(e)=>{setUserName(e.target.value);setIsCheck(false)}}/>
                         {isCheck ?
-                        <button id="btn-name" type="button" className='ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'
+                        <button id="btn-name" type="button" className='ml-5 mt-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'
                         onClick={()=>submit()}>かぶりなし！ここから設定</button>
                         :
-                        <button id="btn-name" type="button" className='ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'
+                        <button id="btn-name" type="button" className='ml-5 mt-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'
                             onClick={()=>check()}>ユーザー名のかぶりをチェック</button>
                         }
                         

@@ -76,7 +76,7 @@ const Post = () =>{
             <div className='post-title'>
                 <h1>{title}</h1>
             </div>
-            <Slider {...settings}>
+            <Slider className='slide-content' {...settings}>
                 {slideContents()}
             </Slider>
         </Layout>
