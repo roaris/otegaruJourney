@@ -1,10 +1,17 @@
 /* 日本地図DOM */
-.japan_map{
+/* .japan_map{
     position: relative;
     box-sizing: border-box;
     margin: 0 auto;
     display: table;
     background-color: #adf6ff;
+} */
+.japan_map{
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: table;
+    background-color: #ffffff;
 }
 /* 日本地図画像（スマホ対応用） */
 .japan_map img{
@@ -29,7 +36,7 @@
 }
 
 /* ボタン配置（使用する日本地図画像により微調整） */
-.japan_map .area_btn.area1{
+/* .japan_map .area_btn.area1{
     top: 30%;
     right: 0;
     width: 30%;
@@ -58,7 +65,39 @@
     top: 70%;
     left: 0;
     width: 25%;
+} */
+
+.japan_map .area_btn.area1{
+    top: 30%;
+    right: 15%;
+    width: 25%;
 }
+.japan_map .area_btn.area2{
+    top: 62%;
+    right: 27%;
+    width: 13%;
+}
+.japan_map .area_btn.area3{
+    top: 56%;
+    right: 37%;
+    width: 13%;
+}
+.japan_map .area_btn.area4{
+    top: 70%;
+    right: 48%;
+    width: 13%;
+}
+.japan_map .area_btn.area5{
+    top: 65%;
+    left: 15%;
+    width: 25%;
+}
+.japan_map .area_btn.area6{
+    top: 82%;
+    left: 5%;
+    width: 25%;
+}
+
 /* オーバーレイ */
 .japan_map .area_overlay{
     display: block;
