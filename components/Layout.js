@@ -5,7 +5,7 @@ const Layout = (props) => {
     return(
         <div>
             <Head>
-                <title>{props.title}</title>
+                <title>お手軽Journey</title>
                 <meta charSet='utf-8'/>            
             </Head>
             <Header/>
