@@ -63,11 +63,12 @@ const Header = (props) => {
                         </div>  
                     </Link>
                     :
-                    <Link href={'/userPage/'+props.user_name}>
-                        <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">
+                    
+                    <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer"
+                        onClick={()=>location.replace('/userPage/'+props.user_name)}>
                             {props.user_name}さんの投稿一覧
-                        </div>               
-                    </Link>
+                    </div>               
+                    
                     }
                     <Link href='/'>
                         <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer"
