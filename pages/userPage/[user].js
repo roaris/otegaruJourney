@@ -31,7 +31,7 @@ const UserPage = (props) => {
             <div id="overlay">
                 <div id="content">
                     <p>本当に削除してよろしいでしょうか?</p>
-                    <button onClick={()=>{deleteFireData(post_id); closeModal(index);}}><p className='text-red-500'>削除</p></button> <br />
+                    <button onClick={()=>{deleteFireData(post_id); location.reload()}}><p className='text-red-500'>削除</p></button> <br />
                     <button onClick={()=>closeModal(index)}>キャンセル</button>
                 </div>
             </div>
@@ -52,12 +52,10 @@ const UserPage = (props) => {
 
     const deleteFireData = (post_id) => {
         let db = firebase.database()
-        console.log('delete_id', post_id)
         db.ref('posts/'+post_id).on('value', (snapshot)=>{
             //postsテーブルのデータから都道府県を取得
             if (snapshot.val()) {
                 let prefecture = snapshot.val().prefecture
-                console.log(prefecture)
                 //prefectureテーブルからデータを削除
                 db.ref('prefecture/'+prefecture+'/'+post_id).remove()
             }
@@ -82,7 +80,6 @@ const UserPage = (props) => {
                     {posts.map((value, index)=>
                         <div key={value}>
                             <PostCard postId={value}/>
-                            {/* TODO ログイン中のユーザ以外には修正、削除ボタンを表示しないようにする */}
                             {user_name==props.user_name ? 
                             <div className='delete-button'>
                                 <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded' onClick={()=>{openModal(index)}}>削除</button>
